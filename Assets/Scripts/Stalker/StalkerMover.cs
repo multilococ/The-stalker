@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class StalkerMover : MonoBehaviour
@@ -15,18 +16,15 @@ public class StalkerMover : MonoBehaviour
 
     public void MoveToTarget(Rigidbody rigidbody)
     {
-        if (_target != null)
-        {
-            Vector3 direction = _target.position - _transform.position;
-            Vector3 moveVector;
+        Vector3 direction = _target.position - _transform.position;
+        Vector3 moveVector;
 
-            if (direction.magnitude > _minDistance)
-                moveVector = direction.normalized * _speed;
-            else
-                moveVector = Vector3.zero;
+        if (direction.sqrMagnitude >= _minDistance * _minDistance)
+            moveVector = direction.normalized * _speed;
+        else
+            moveVector = Vector3.zero;
 
-            moveVector.y = rigidbody.velocity.y;
-            rigidbody.velocity = moveVector;
-        }
+        moveVector.y = rigidbody.velocity.y;
+        rigidbody.velocity = moveVector;
     }
 }
